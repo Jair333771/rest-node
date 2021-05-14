@@ -136,13 +136,13 @@ const deleteProduct = (req, res) => {
     let error = "No product found"
     var index = products.map(x => ({ ...x })).findIndex(x => x.id == id);
     if (index !== -1) {
-        products.slice(index, 1);
+        var name = products[index].name;
+        products.splice(index, 1);
         status = 200;
         error = undefined;
-        data = `Product: ${id} has been removed`;
+        data = `Product ${name} has been removed`;
     }
     res.status(status).send({ status: status, data: data, error: error });
-
 }
 
 module.exports = {

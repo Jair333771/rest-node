@@ -12,6 +12,7 @@ const createRoutes = (app) => {
     app.post(`/api/${version}/products/create`, productController.createProduct);
     app.put(`/api/${version}/products/:id`, productController.updateProduct);
     app.patch(`/api/${version}/products/:id`, productController.partialUpdateProduct);
+    app.delete(`/api/${version}/products/:id`, productController.deleteProduct);
 }
 
 module.exports = createRoutes;
