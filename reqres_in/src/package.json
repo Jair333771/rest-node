@@ -1,0 +1,19 @@
+{
+  "name": "reqres_in",
+  "version": "1.0.0",
+  "description": "Reqres_in workshop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "Jair",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}
