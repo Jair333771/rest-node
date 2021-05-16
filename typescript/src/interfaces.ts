@@ -13,5 +13,6 @@ class AuthClient implements Auth {
         return pass === "1234" && email === "jair";
     }
 }
+
 const auth = new AuthClient();
 console.log(auth.login("jair", "123"))
