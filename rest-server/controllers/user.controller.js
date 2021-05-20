@@ -1,14 +1,34 @@
 const { request, response } = require('express');
 const bcryptjs = require('bcryptjs');
+const { encrypt } = require('../helpers/encrypt');
 const User = require('../models/user');
 
-const getUsers = (req = request, res = response) => {
-    const { page = "1", limit = "10" } = req.query;
-    res.status(200).send({ message: 'get API - from controller', page, limit })
+const getUsers = async (req = request, res = response) => {
+    const { page = 1, limit = 10 } = req.query;
+    const query = { state: true };
+
+    //#region comment code await with two elements
+    // const users = await User.find({ state: true })
+    //     .skip(Number(page))
+    //     .limit(Number(limit));
+    // const total = await User.countDocuments({ state: true });
+    //#endregion
+    
+    // Execute both promises at the same time
+    const [total, users] = await Promise.all([
+        User.countDocuments(query),
+        User.find(query)
+            .skip(Number(page))
+            .limit(Number(limit))
+    ]);
+
+    res.json({ data: users, page: Number(page), limit: Number(limit), total });
 }
 
-const getUserById = (req, res) => {
-    res.status(200).send({ message: 'get API' })
+const getUserById = async (req, res) => {
+    const { id } = req.params;
+    const result = await User.findById(id);
+    res.status(200).json({ data: result });
 }
 
 const createUser = async (req, res) => {
@@ -37,13 +57,16 @@ const updateUser = async (req, res) => {
     res.status(200).json({ data: result })
 }
 
-const deleteUser = (req, res) => {
-    res.status(200).send({ message: 'delete API - from controller' })
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+    const result = await User.findByIdAndUpdate(id, {state: false});    
+    res.json({ data: result });
 }
 
-const encrypt = (password, user) => {
-    const salt = bcryptjs.genSaltSync(10);
-    user.password = bcryptjs.hashSync(password, salt);
+const deleteUserFromDatabase = async (req, res) => {
+    const { id } = req.params;
+    const result = await User.findByIdAndDelete(id);    
+    res.json({ data: result });
 }
 
 module.exports = {

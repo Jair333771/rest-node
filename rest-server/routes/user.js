@@ -26,6 +26,11 @@ router.post('/', [
 validateModel, // Required for any check validation
 user.createUser);
 
-router.delete('/', user.deleteUser);
+router.delete('/:id', [
+    check('id', 'Is not a valid id, please verify your data').isMongoId(),
+    check('id').custom(validator.validateUserExist),
+],
+validateModel, 
+user.deleteUser);
 
 module.exports = router;
