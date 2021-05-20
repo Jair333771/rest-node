@@ -8,6 +8,7 @@ class Server {
         this.app = express();
         // Endpoints
         this.usersPath = '/api/users';
+        this.authPath = '/api/auth';
         // Database connect
         this.databaseConnect();
         // Middlewares
@@ -31,6 +32,7 @@ class Server {
 
     routes() {
         this.app.use(this.usersPath, require('../routes/user'));
+        this.app.use(this.authPath, require('../routes/auth'));
     }
 
     listen() {

@@ -1,5 +1,4 @@
 const { request, response } = require('express');
-const bcryptjs = require('bcryptjs');
 const { encrypt } = require('../helpers/encrypt');
 const User = require('../models/user');
 
