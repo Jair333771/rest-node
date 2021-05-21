@@ -5,14 +5,13 @@ const User = require('../models/user');
 const getUsers = async (req = request, res = response) => {
     const { page = 1, limit = 10 } = req.query;
     const query = { state: true };
-
     //#region comment code await with two elements
     // const users = await User.find({ state: true })
     //     .skip(Number(page))
     //     .limit(Number(limit));
     // const total = await User.countDocuments({ state: true });
     //#endregion
-    
+
     // Execute both promises at the same time
     const [total, users] = await Promise.all([
         User.countDocuments(query),
@@ -58,13 +57,14 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     const { id } = req.params;
-    const result = await User.findByIdAndUpdate(id, {state: false});    
-    res.json({ data: result });
+    console.log(req.authUser);
+    const result = await User.findByIdAndUpdate(id, { state: false });
+    res.json({ data: result, authUser: req.authUser });
 }
 
 const deleteUserFromDatabase = async (req, res) => {
     const { id } = req.params;
-    const result = await User.findByIdAndDelete(id);    
+    const result = await User.findByIdAndDelete(id);
     res.json({ data: result });
 }
 
